@@ -74,6 +74,12 @@ public class LoginServiceTest {
        service.login(ACCOUNT_ID_1, PASSWORD);
     }
 
+    @Test(expected = AccountNotFoundException.class)
+    public void ItShouldThrowExceptionIfAccountNotFound() {
+        when(accountRepository.find(ACCOUNT_ID_2)).thenReturn(null);
+        service.login(ACCOUNT_ID_2, PASSWORD);
+    }
+
     private void willPasswordMatch(boolean value) {
         when(account.passwordMatches(anyString())).thenReturn(value);
     }
