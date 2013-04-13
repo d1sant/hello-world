@@ -8,20 +8,27 @@ package com.dpalaznik.mockito.example.loginservice;
 public class LoginService {
     private final IAccountRepository accountRepository;
     private int failedAttempts = 0;
+    private String previousAccountId = "";
 
     public LoginService(IAccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
+
     public void login(String accountId, String password) {
         IAccount account = accountRepository.find(accountId);
 
-        if(account.passwordMatches(password)) {
+        if (account.passwordMatches(password)) {
             account.setLoggedIn(true);
         } else {
-            ++failedAttempts;
+            if (previousAccountId.equals(accountId)) {
+                ++failedAttempts;
+            } else {
+                failedAttempts = 1;
+                previousAccountId = accountId;
+            }
         }
 
-        if(failedAttempts == 3) {
+        if (failedAttempts == 3) {
             account.setRevoked(true);
         }
     }
