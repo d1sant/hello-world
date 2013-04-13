@@ -67,7 +67,7 @@ public class LoginServiceTest {
         verify(secondAccount, never()).setRevoked(true);
     }
 
-    @Test
+    @Test(expected = AccountLoginLimitReachedException.class)
     public void itShouldNowAllowConcurrentLogins() {
        willPasswordMatch(true);
        when(account.isLoggedIn()).thenReturn(true);
