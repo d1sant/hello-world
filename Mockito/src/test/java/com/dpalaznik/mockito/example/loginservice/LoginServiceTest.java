@@ -75,9 +75,16 @@ public class LoginServiceTest {
     }
 
     @Test(expected = AccountNotFoundException.class)
-    public void ItShouldThrowExceptionIfAccountNotFound() {
+    public void itShouldThrowExceptionIfAccountNotFound() {
         when(accountRepository.find(ACCOUNT_ID_2)).thenReturn(null);
         service.login(ACCOUNT_ID_2, PASSWORD);
+    }
+
+    @Test(expected = AccountRevokedException.class)
+    public void itShouldNotBePossibleToLogIntoRevokedAccount() {
+        willPasswordMatch(true);
+        when(account.isRevoked()).thenReturn(true);
+        service.login(ACCOUNT_ID_1, PASSWORD);
     }
 
     private void willPasswordMatch(boolean value) {
