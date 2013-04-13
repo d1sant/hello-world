@@ -13,8 +13,9 @@ import static org.mockito.Mockito.*;
  */
 public class LoginServiceTest {
 
-    private static final String ACCOUNT_ID = "dmitry";
+    private static final String ACCOUNT_ID_1 = "dmitry";
     private static final String PASSWORD = "password";
+    private static final String ACCOUNT_ID_2 = "alex";
 
     private IAccount account;
     private IAccountRepository accountRepository;
@@ -31,7 +32,7 @@ public class LoginServiceTest {
     @Test
     public void isShouldSetAccountToLoggedInWhenPasswordMatches() {
         willPasswordMatch(true);
-        service.login(ACCOUNT_ID, PASSWORD);
+        service.login(ACCOUNT_ID_1, PASSWORD);
         verify(account, times(1)).setLoggedIn(true);
     }
 
@@ -39,7 +40,7 @@ public class LoginServiceTest {
     public void itShouldSetAccountToRevokedAfterThreeFailedLoginAttempts() {
         willPasswordMatch(false);
         for (int i = 0; i < 3; i++) {
-            service.login(ACCOUNT_ID, PASSWORD);
+            service.login(ACCOUNT_ID_1, PASSWORD);
         }
         verify(account, times(1)).setRevoked(true);
     }
@@ -47,8 +48,23 @@ public class LoginServiceTest {
     @Test
     public void itShouldNotSetAccountLoggedInIfPasswordDoesNotMatch() {
         willPasswordMatch(false);
-        service.login(ACCOUNT_ID, PASSWORD);
+        service.login(ACCOUNT_ID_1, PASSWORD);
         verify(account, never()).setLoggedIn(true);
+    }
+
+    @Test
+    public void itShouldNotRevokeSecondAccountAfterTwoFailedAttemptsFirstAccount() {
+        willPasswordMatch(false);
+
+        IAccount secondAccount = mock(IAccount.class);
+        when(secondAccount.passwordMatches(anyString())).thenReturn(false);
+        when(accountRepository.find(ACCOUNT_ID_2)).thenReturn(secondAccount);
+
+        service.login(ACCOUNT_ID_1, PASSWORD);
+        service.login(ACCOUNT_ID_1, PASSWORD);
+        service.login(ACCOUNT_ID_2, PASSWORD);
+
+        verify(secondAccount, never()).setRevoked(true);
     }
 
     private void willPasswordMatch(boolean value) {
