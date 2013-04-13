@@ -25,4 +25,21 @@ public class LoginServiceTest {
 
         verify(account, times(1)).setLoggedIn(true);
     }
+
+    @Test
+    public void itShouldSetAccountToRevokedAfterThreeFailedLoginAttempts() {
+        IAccount account = mock(IAccount.class);
+        when(account.passwordMatches(anyString())).thenReturn(false);
+
+        IAccountRepository accountRepository = mock(IAccountRepository.class);
+        when(accountRepository.find(anyString())).thenReturn(account);
+
+        LoginService service = new LoginService(accountRepository);
+
+        for (int i = 0; i < 3; i++) {
+            service.login("dmitry", "password");
+        }
+
+        verify(account, times(1)).setRevoked(true);
+    }
 }
