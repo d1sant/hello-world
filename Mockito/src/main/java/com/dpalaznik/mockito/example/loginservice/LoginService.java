@@ -17,6 +17,10 @@ public class LoginService {
     public void login(String accountId, String password) {
         IAccount account = accountRepository.find(accountId);
 
+        if (account == null) {
+            throw new AccountNotFoundException();
+        }
+
         if (account.passwordMatches(password)) {
             if (account.isLoggedIn()) {
                 throw new AccountLoginLimitReachedException();
