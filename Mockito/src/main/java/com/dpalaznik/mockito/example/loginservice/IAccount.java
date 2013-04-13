@@ -10,4 +10,5 @@ public interface IAccount {
     boolean passwordMatches(String candidate);
     void setRevoked(boolean value);
     boolean isLoggedIn();
+    boolean isRevoked();
 }
