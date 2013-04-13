@@ -13,6 +13,9 @@ import static org.mockito.Mockito.*;
  */
 public class LoginServiceTest {
 
+    private static final String ACCOUNT_ID = "dmitry";
+    private static final String PASSWORD = "password";
+
     private IAccount account;
     private IAccountRepository accountRepository;
     private LoginService service;
@@ -28,7 +31,7 @@ public class LoginServiceTest {
     @Test
     public void isShouldSetAccountToLoggedInWhenPasswordMatches() {
         willPasswordMatch(true);
-        service.login("dmitry", "password");
+        service.login(ACCOUNT_ID, PASSWORD);
         verify(account, times(1)).setLoggedIn(true);
     }
 
@@ -36,16 +39,16 @@ public class LoginServiceTest {
     public void itShouldSetAccountToRevokedAfterThreeFailedLoginAttempts() {
         willPasswordMatch(false);
         for (int i = 0; i < 3; i++) {
-            service.login("dmitry", "password");
+            service.login(ACCOUNT_ID, PASSWORD);
         }
         verify(account, times(1)).setRevoked(true);
     }
 
     @Test
     public void itShouldNotSetAccountLoggedInIfPasswordDoesNotMatch() {
-       willPasswordMatch(false);
-       service.login("dmitry", "password");
-       verify(account, never()).setLoggedIn(true);
+        willPasswordMatch(false);
+        service.login(ACCOUNT_ID, PASSWORD);
+        verify(account, never()).setLoggedIn(true);
     }
 
     private void willPasswordMatch(boolean value) {

@@ -14,10 +14,13 @@ public class LoginService {
     }
     public void login(String accountId, String password) {
         IAccount account = accountRepository.find(accountId);
-        account.setLoggedIn(true);
-        if(!account.passwordMatches(password)) {
+
+        if(account.passwordMatches(password)) {
+            account.setLoggedIn(true);
+        } else {
             ++failedAttempts;
         }
+
         if(failedAttempts == 3) {
             account.setRevoked(true);
         }
