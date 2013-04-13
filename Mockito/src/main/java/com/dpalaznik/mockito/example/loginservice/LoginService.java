@@ -18,6 +18,9 @@ public class LoginService {
         IAccount account = accountRepository.find(accountId);
 
         if (account.passwordMatches(password)) {
+            if (account.isLoggedIn()) {
+                throw new AccountLoginLimitReachedException();
+            }
             account.setLoggedIn(true);
         } else {
             if (previousAccountId.equals(accountId)) {

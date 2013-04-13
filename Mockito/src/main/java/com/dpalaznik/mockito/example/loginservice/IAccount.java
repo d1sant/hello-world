@@ -9,4 +9,5 @@ public interface IAccount {
     void setLoggedIn(boolean value);
     boolean passwordMatches(String candidate);
     void setRevoked(boolean value);
+    boolean isLoggedIn();
 }
