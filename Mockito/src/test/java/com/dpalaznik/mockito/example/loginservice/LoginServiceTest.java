@@ -41,6 +41,13 @@ public class LoginServiceTest {
         verify(account, times(1)).setRevoked(true);
     }
 
+    @Test
+    public void itShouldNotSetAccountLoggedInIfPasswordDoesNotMatch() {
+       willPasswordMatch(false);
+       service.login("dmitry", "password");
+       verify(account, never()).setLoggedIn(true);
+    }
+
     private void willPasswordMatch(boolean value) {
         when(account.passwordMatches(anyString())).thenReturn(value);
     }
