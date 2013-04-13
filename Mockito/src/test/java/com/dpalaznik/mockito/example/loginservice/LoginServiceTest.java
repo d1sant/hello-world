@@ -67,6 +67,13 @@ public class LoginServiceTest {
         verify(secondAccount, never()).setRevoked(true);
     }
 
+    @Test
+    public void itShouldNowAllowConcurrentLogins() {
+       willPasswordMatch(true);
+       when(account.isLoggedIn()).thenReturn(true);
+       service.login(ACCOUNT_ID_1, PASSWORD);
+    }
+
     private void willPasswordMatch(boolean value) {
         when(account.passwordMatches(anyString())).thenReturn(value);
     }
