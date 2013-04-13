@@ -25,6 +25,9 @@ public class LoginService {
             if (account.isLoggedIn()) {
                 throw new AccountLoginLimitReachedException();
             }
+            if (account.isRevoked()) {
+                throw new AccountRevokedException();
+            }
             account.setLoggedIn(true);
         } else {
             if (previousAccountId.equals(accountId)) {
