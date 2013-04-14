@@ -11,4 +11,5 @@ public interface IAccount {
     void setRevoked(boolean value);
     boolean isLoggedIn();
     boolean isRevoked();
+    void login();
 }
