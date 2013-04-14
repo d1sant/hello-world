@@ -6,7 +6,6 @@ package com.dpalaznik.mockito.example.loginservice;
  * @author Dmitry Palaznik <dmitry.palaznik@viaden.com>
  */
 public class Account implements IAccount {
-
     private final String id;
     private final String password;
     private boolean isLoggedIn = false;
