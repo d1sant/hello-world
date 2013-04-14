@@ -30,13 +30,6 @@ public class LoginServiceTest {
     }
 
     @Test
-    public void isShouldSetAccountToLoggedInWhenPasswordMatches() {
-        willPasswordMatch(true);
-        service.login(ACCOUNT_ID_1, PASSWORD);
-        verify(account, times(1)).setLoggedIn(true);
-    }
-
-    @Test
     public void itShouldSetAccountToRevokedAfterThreeFailedLoginAttempts() {
         willPasswordMatch(false);
         for (int i = 0; i < 3; i++) {
@@ -67,24 +60,10 @@ public class LoginServiceTest {
         verify(secondAccount, never()).setRevoked(true);
     }
 
-    @Test(expected = AccountLoginLimitReachedException.class)
-    public void itShouldNowAllowConcurrentLogins() {
-       willPasswordMatch(true);
-       when(account.isLoggedIn()).thenReturn(true);
-       service.login(ACCOUNT_ID_1, PASSWORD);
-    }
-
     @Test(expected = AccountNotFoundException.class)
     public void itShouldThrowExceptionIfAccountNotFound() {
         when(accountRepository.find(ACCOUNT_ID_2)).thenReturn(null);
         service.login(ACCOUNT_ID_2, PASSWORD);
-    }
-
-    @Test(expected = AccountRevokedException.class)
-    public void itShouldNotBePossibleToLogIntoRevokedAccount() {
-        willPasswordMatch(true);
-        when(account.isRevoked()).thenReturn(true);
-        service.login(ACCOUNT_ID_1, PASSWORD);
     }
 
     private void willPasswordMatch(boolean value) {

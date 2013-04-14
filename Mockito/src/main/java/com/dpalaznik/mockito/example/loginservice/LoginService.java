@@ -22,13 +22,7 @@ public class LoginService {
         }
 
         if (account.passwordMatches(password)) {
-            if (account.isLoggedIn()) {
-                throw new AccountLoginLimitReachedException();
-            }
-            if (account.isRevoked()) {
-                throw new AccountRevokedException();
-            }
-            account.setLoggedIn(true);
+            account.login();
         } else {
             if (previousAccountId.equals(accountId)) {
                 ++failedAttempts;

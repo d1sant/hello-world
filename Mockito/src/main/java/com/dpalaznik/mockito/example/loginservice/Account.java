@@ -42,15 +42,13 @@ public class Account implements IAccount {
     }
 
     @Override
-    public void login(String password) {
-        if (passwordMatches(password)) {
-            if (isLoggedIn()) {
-                throw new AccountLoginLimitReachedException();
-            }
-            if (isRevoked()) {
-                throw new AccountRevokedException();
-            }
-            setLoggedIn(true);
+    public void login() {
+        if (isLoggedIn()) {
+            throw new AccountLoginLimitReachedException();
         }
+        if (isRevoked()) {
+            throw new AccountRevokedException();
+        }
+        setLoggedIn(true);
     }
 }

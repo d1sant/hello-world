@@ -1,9 +1,8 @@
 package com.dpalaznik.mockito.example.loginservice;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.mockito.Mockito.when;
 
 /**
  * Date: 2013-04-14
@@ -19,15 +18,21 @@ public class AccountTest {
         account = new Account("dmitry", "password");
     }
 
+    @Test
+    public void isShouldSetAccountToLoggedInAfterLogin() {
+        account.login();
+        Assert.assertEquals(true, account.isLoggedIn());
+    }
+
     @Test(expected = AccountLoginLimitReachedException.class)
     public void itShouldNowAllowConcurrentLogins() {
-        account.login(PASSWORD);
-        account.login(PASSWORD);
+        account.login();
+        account.login();
     }
 
     @Test(expected = AccountRevokedException.class)
     public void itShouldNotBePossibleToLogIntoRevokedAccount() {
         account.setRevoked(true);
-        account.login(PASSWORD);
+        account.login();
     }
 }
