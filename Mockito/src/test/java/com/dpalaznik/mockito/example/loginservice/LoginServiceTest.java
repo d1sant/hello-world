@@ -30,6 +30,13 @@ public class LoginServiceTest {
     }
 
     @Test
+    public void isShouldSetAccountToLoggedInWhenPasswordMatches() {
+        willPasswordMatch(true);
+        service.login(ACCOUNT_ID_1, PASSWORD);
+        verify(account, times(1)).login();
+    }
+
+    @Test
     public void itShouldSetAccountToRevokedAfterThreeFailedLoginAttempts() {
         willPasswordMatch(false);
         for (int i = 0; i < 3; i++) {
