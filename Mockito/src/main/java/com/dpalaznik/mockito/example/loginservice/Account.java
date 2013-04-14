@@ -7,36 +7,48 @@ package com.dpalaznik.mockito.example.loginservice;
  */
 public class Account implements IAccount {
 
+    private final String id;
+    private final String password;
+    private boolean isLoggedIn = false;
+    private boolean isRevoked = false;
+
     public Account(String accountId, String password) {
+        this.id = accountId;
+        this.password = password;
     }
 
     @Override
     public void setLoggedIn(boolean value) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        isLoggedIn = value;
     }
 
     @Override
     public boolean passwordMatches(String candidate) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.password.equals(candidate);
     }
 
     @Override
     public void setRevoked(boolean value) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        this.isRevoked = value;
     }
 
     @Override
     public boolean isLoggedIn() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.isLoggedIn;
     }
 
     @Override
     public boolean isRevoked() {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.isRevoked;
     }
 
     @Override
-    public void login() {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void login(String password) {
+        if (passwordMatches(password)) {
+            if (isLoggedIn()) {
+                throw new AccountLoginLimitReachedException();
+            }
+            setLoggedIn(true);
+        }
     }
 }

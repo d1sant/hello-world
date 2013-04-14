@@ -12,6 +12,8 @@ import static org.mockito.Mockito.when;
  * @author Dmitry Palaznik <dmitry.palaznik@viaden.com>
  */
 public class AccountTest {
+    private static final String PASSWORD = "password";
+
     private IAccount account;
 
     @Before
@@ -21,12 +23,7 @@ public class AccountTest {
 
     @Test(expected = AccountLoginLimitReachedException.class)
     public void itShouldNowAllowConcurrentLogins() {
-        willPasswordMatch(true);
-        when(account.isLoggedIn()).thenReturn(true);
-        account.login();
-    }
-
-    private void willPasswordMatch(boolean value) {
-        when(account.passwordMatches(anyString())).thenReturn(value);
+        account.login(PASSWORD);
+        account.login(PASSWORD);
     }
 }
