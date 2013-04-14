@@ -47,6 +47,9 @@ public class Account implements IAccount {
             if (isLoggedIn()) {
                 throw new AccountLoginLimitReachedException();
             }
+            if (isRevoked()) {
+                throw new AccountRevokedException();
+            }
             setLoggedIn(true);
         }
     }
