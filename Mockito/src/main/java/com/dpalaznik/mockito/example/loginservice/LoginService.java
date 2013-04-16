@@ -21,6 +21,10 @@ public class LoginService {
             throw new AccountNotFoundException();
         }
 
+        verifyLoginAttempt(account, password);
+    }
+
+    private void verifyLoginAttempt(IAccount account, String password) {
         if (account.passwordMatches(password)) {
             account.login();
         } else {
