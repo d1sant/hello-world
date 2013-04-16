@@ -24,11 +24,11 @@ public class LoginService {
         if (account.passwordMatches(password)) {
             account.login();
         } else {
-            if (previousAccountId.equals(accountId)) {
+            if (previousAccountId.equals(account.getId())) {
                 ++failedAttempts;
             } else {
                 failedAttempts = 1;
-                previousAccountId = accountId;
+                previousAccountId = account.getId();
             }
         }
 

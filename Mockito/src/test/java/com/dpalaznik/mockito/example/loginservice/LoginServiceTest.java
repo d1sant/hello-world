@@ -24,6 +24,7 @@ public class LoginServiceTest {
     @Before
     public void init() {
         account = mock(IAccount.class);
+        when(account.getId()).thenReturn(ACCOUNT_ID_1);
         accountRepository = mock(IAccountRepository.class);
         when(accountRepository.find(anyString())).thenReturn(account);
         service = new LoginService(accountRepository);

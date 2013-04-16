@@ -17,6 +17,11 @@ public class Account implements IAccount {
     }
 
     @Override
+    public String getId() {
+        return this.id;
+    }
+
+    @Override
     public void setLoggedIn(boolean value) {
         isLoggedIn = value;
     }
