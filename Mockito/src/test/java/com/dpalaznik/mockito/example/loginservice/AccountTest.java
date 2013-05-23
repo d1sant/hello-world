@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- *
  * @author Dmitry Palaznik <dmitry.palaznik@viaden.com>
  */
 public class AccountTest {

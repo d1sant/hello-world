@@ -7,7 +7,6 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
- *
  * @author Dmitry Palaznik <dmitry.palaznik@viaden.com>
  */
 public class LoginServiceTest {
