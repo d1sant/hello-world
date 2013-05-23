@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Date: 2013-04-14
  *
  * @author Dmitry Palaznik <dmitry.palaznik@viaden.com>
  */

@@ -7,7 +7,6 @@ import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.*;
 
 /**
- * Date: 2013-04-14
  *
  * @author Dmitry Palaznik <dmitry.palaznik@viaden.com>
  */
