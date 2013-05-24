@@ -18,6 +18,10 @@ public class LoginService {
             throw new AccountNotFoundException();
         }
 
-        state.login(account, password);
+        state.login(this, account, password);
+    }
+
+    public void setState(LoginServiceState state) {
+        this.state = state;
     }
 }

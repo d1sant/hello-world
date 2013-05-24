@@ -4,21 +4,24 @@ package com.dpalaznik.mockito.example.loginservice;
  * @author Dmitry Palaznik <dmitry.palaznik@viaden.com>
  */
 public class AfterSecondFailedLoginAttempt extends LoginServiceState {
+    private String previousAccountId;
+
+    public AfterSecondFailedLoginAttempt(String previousAccountId) {
+        this.previousAccountId = previousAccountId;
+        failedAttempts = 2;
+    }
+
     @Override
-    public void login(IAccount account, String password) {
+    public void login(LoginService context, IAccount account, String password) {
         if (account.passwordMatches(password)) {
             account.login();
         } else {
             if (previousAccountId.equals(account.getId())) {
-                ++failedAttempts;
+                account.setRevoked(true);
+                context.setState(new AwaitingFirstLoginAttempt());
             } else {
-                failedAttempts = 1;
-                previousAccountId = account.getId();
+                context.setState(new AfterFirstFailedLoginAttempt(account.getId()));
             }
-        }
-
-        if (failedAttempts == 3) {
-            account.setRevoked(true);
         }
     }
 }
