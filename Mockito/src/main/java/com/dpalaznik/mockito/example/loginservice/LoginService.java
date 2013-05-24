@@ -5,7 +5,6 @@ package com.dpalaznik.mockito.example.loginservice;
  */
 public class LoginService {
     private final IAccountRepository accountRepository;
-
     private LoginServiceState state = new AwaitingFirstLoginAttempt();
 
     public LoginService(IAccountRepository accountRepository) {
