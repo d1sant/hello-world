@@ -5,11 +5,7 @@ package com.dpalaznik.mockito.example.loginservice;
  */
 public class AwaitingFirstLoginAttempt extends LoginServiceState {
     @Override
-    public void login(LoginService context, IAccount account, String password) {
-        if (account.passwordMatches(password)) {
-            account.login();
-        } else {
-            context.setState(new AfterFirstFailedLoginAttempt(account.getId()));
-        }
+    public void handleIncorrectPassword(LoginService context, IAccount account, String password) {
+        context.setState(new AfterFirstFailedLoginAttempt(account.getId()));
     }
 }

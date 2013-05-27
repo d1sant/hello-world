@@ -8,12 +8,13 @@ import org.junit.Test;
  * @author Dmitry Palaznik <dmitry.palaznik@viaden.com>
  */
 public class AccountTest {
+    private static final String USER = "dmitry";
     private static final String PASSWORD = "password";
     private IAccount account;
 
     @Before
     public void init() {
-        account = new Account("dmitry", "password");
+        account = new Account(USER, PASSWORD);
     }
 
     @Test

@@ -8,19 +8,14 @@ public class AfterFirstFailedLoginAttempt extends LoginServiceState {
 
     public AfterFirstFailedLoginAttempt(String previousAccountId) {
         this.previousAccountId = previousAccountId;
-        failedAttempts = 1;
     }
 
     @Override
-    public void login(LoginService context, IAccount account, String password) {
-        if (account.passwordMatches(password)) {
-            account.login();
+    public void handleIncorrectPassword(LoginService context, IAccount account, String password) {
+        if (previousAccountId.equals(account.getId())) {
+            context.setState(new AfterSecondFailedLoginAttempt(account.getId()));
         } else {
-            if (previousAccountId.equals(account.getId())) {
-                context.setState(new AfterSecondFailedLoginAttempt(account.getId()));
-            } else {
-                previousAccountId = account.getId();
-            }
+            previousAccountId = account.getId();
         }
     }
 }
