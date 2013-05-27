@@ -5,9 +5,7 @@ package com.dpalaznik.mockito.example.loginservice;
  */
 public abstract class LoginServiceState {
 
-
-
-    public final void login(LoginService context, IAccount account, String password) {
+    public final void login(LoginServiceContext context, IAccount account, String password) {
         if (account.passwordMatches(password)) {
             account.login();
             context.setState(new AwaitingFirstLoginAttempt());
@@ -16,5 +14,5 @@ public abstract class LoginServiceState {
         }
 
     }
-    public abstract void handleIncorrectPassword(LoginService context, IAccount account, String password);
+    public abstract void handleIncorrectPassword(LoginServiceContext context, IAccount account, String password);
 }

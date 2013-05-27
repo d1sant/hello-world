@@ -11,7 +11,7 @@ public class AfterFirstFailedLoginAttempt extends LoginServiceState {
     }
 
     @Override
-    public void handleIncorrectPassword(LoginService context, IAccount account, String password) {
+    public void handleIncorrectPassword(LoginServiceContext context, IAccount account, String password) {
         if (previousAccountId.equals(account.getId())) {
             context.setState(new AfterSecondFailedLoginAttempt(account.getId()));
         } else {

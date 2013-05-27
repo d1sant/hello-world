@@ -3,11 +3,11 @@ package com.dpalaznik.mockito.example.loginservice;
 /**
  * @author Dmitry Palaznik <dmitry.palaznik@viaden.com>
  */
-public class LoginService {
+public class LoginService extends LoginServiceContext {
     private final IAccountRepository accountRepository;
-    private LoginServiceState state = new AwaitingFirstLoginAttempt();
 
     public LoginService(IAccountRepository accountRepository) {
+        super(new AwaitingFirstLoginAttempt());
         this.accountRepository = accountRepository;
     }
 
@@ -18,10 +18,6 @@ public class LoginService {
             throw new AccountNotFoundException();
         }
 
-        state.login(this, account, password);
-    }
-
-    public void setState(LoginServiceState state) {
-        this.state = state;
+        getState().login(this, account, password);
     }
 }
