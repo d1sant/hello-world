@@ -72,6 +72,18 @@ public class LoginServiceTest {
         service.login(ACCOUNT_ID_2, PASSWORD);
     }
 
+    @Test
+    public void itShouldResetBackToInitialStateAfterSuccessfulLogin() {
+        willPasswordMatch(false);
+        service.login("brett", "password");
+        service.login("brett", "password");
+        willPasswordMatch(true);
+        service.login("brett", "password");
+        willPasswordMatch(false);
+        service.login("brett", "password");
+        verify(account, never()).setRevoked(true);
+    }
+
     private void willPasswordMatch(boolean value) {
         when(account.passwordMatches(anyString())).thenReturn(value);
     }
